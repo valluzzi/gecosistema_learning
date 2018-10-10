@@ -85,6 +85,15 @@ class StaticSVR(SVR):
         self.X_train = self.stdsc.fit_transform(self.X_train)
         self.X_test  = self.stdsc.transform(self.X_test)
 
+    def get_target(self, filecsv, sep=',', glue='"', features="", target= "", dates="", train_percent=0.75):
+        """
+        get_target
+        """
+        if self.X_train is None:
+            self.load(filecsv, sep=sep, glue=glue, features=features, target=target, dates=dates, train_percent=train_percent)
+
+        return zip(self.d_test,self.y_test)
+
 
     def train(self, filecsv, sep=',', glue='"', features="", target= "", dates="", train_percent=0.75):
         """
