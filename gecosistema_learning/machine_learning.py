@@ -123,7 +123,7 @@ class StaticSVR(SVR):
 
     def make_stats(self, filecsv, sep=',', glue='"', features="", target= "",  dates="", train_percent=0.75):
         """
-        make_stast from csv
+        make_stats from csv
         """
         if self.predictions is None:
             self.make_prediction(filecsv, sep=sep, glue=glue, features=features, target=target, dates=dates, train_percent=train_percent)
