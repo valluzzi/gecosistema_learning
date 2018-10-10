@@ -50,6 +50,7 @@ class StaticSVR(SVR):
         self.y_train= None
         self.X_test = None
         self.y_test = None
+        self.predictions = None
 
     def load(self, filecsv, sep=',', glue='"', features="", target= "", dates="", train_percent=0.75):
         """
@@ -104,7 +105,7 @@ class StaticSVR(SVR):
             self.load(filecsv, sep=sep, glue=glue, features=features, target=target, dates=dates, train_percent=train_percent)
 
         #training!
-        print("training the SVR...")
+        print("make SVR training(fit)...")
         self.fit(self.X_train, self.y_train)
 
 
@@ -115,16 +116,32 @@ class StaticSVR(SVR):
         if self.X_train is None:
             self.train(filecsv, sep=sep, glue=glue, features=features, target=target, dates=dates, train_percent=train_percent)
 
-        print("make predictions...")
-        predictions = self.predict(self.X_test)
-        return zip(self.d_test,predictions)
+        print("make SVR predictions...")
+        self.predictions = self.predict(self.X_test)
+        return zip(self.d_test,self.predictions)
 
 
+    def make_stats(self, filecsv, sep=',', glue='"', features="", target= "",  dates="", train_percent=0.75):
+        """
+        make_stast from csv
+        """
+        if self.predictions is None:
+            self.make_prediction(filecsv, sep=sep, glue=glue, features=features, target=target, dates=dates, train_percent=train_percent)
+
+        print("make SVR statistics...")
+        s = self.predict(self.X_test)
+        o = self.y_test
+        self.mse = MSE(s,o)
+        self.rmse =  RMSE(s,o)
+        self.nash_sutcliffe = NASH(s,o)
+        self.M = M(s,o)
+
+        print ("M=%.2f MSE=%.2f RMSE=%.2f  NASH-SUTCLIFFE=%.2f"%(self.M,self.mse,self.rmse,self.nash_sutcliffe))
 
 if __name__== "__main__":
 
     filecsv = r"BETANIA0.csv"
-    s =StaticSVR()
+    s =StaticSVR(C=200,epsilon=0.5,gamma=0.1)
     #s.train(filecsv,features = u"T m norm,P1,P2", target = "TARGET")
-    print s.make_prediction(filecsv,features = u"T m norm,P1,P2", target = "TARGET", dates= "DATA")
-    print s.get_target(filecsv,features = u"T m norm,P1,P2", target = "TARGET", dates= "DATA")
+
+    print s.make_stats(filecsv,features = u"T m norm,P1,P2", target = "TARGET", dates= "DATA")
