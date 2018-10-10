@@ -72,7 +72,7 @@ class StaticSVR(SVR):
         dfd  = df[dates]
 
         # pandas to numpy array
-        if m_train >0:
+        if m_train >1:
             self.X_train = dfX.values[:m_train]
             self.y_train = dfy.values[:m_train]  #Train Target column
             self.d_train = dfd.values[:m_train]
