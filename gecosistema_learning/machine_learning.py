@@ -89,8 +89,7 @@ class StaticSVR(SVR):
         """
         get_target
         """
-        if self.X_train is None:
-            self.load(filecsv, sep=sep, glue=glue, features=features, target=target, dates=dates, train_percent=train_percent)
+        self.load(filecsv, sep=sep, glue=glue, features=features, target=target, dates=dates, train_percent=train_percent)
 
         return zip(self.d_test,self.y_test)
 
@@ -127,4 +126,4 @@ if __name__== "__main__":
     s =StaticSVR()
     #s.train(filecsv,features = u"T m norm,P1,P2", target = "TARGET")
     print s.make_prediction(filecsv,features = u"T m norm,P1,P2", target = "TARGET", dates= "DATA")
-    print s.make_prediction(filecsv,features = u"T m norm,P1,P2", target = "TARGET", dates= "DATA")
+    print s.get_target(filecsv,features = u"T m norm,P1,P2", target = "TARGET", dates= "DATA")
