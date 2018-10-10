@@ -72,10 +72,11 @@ class StaticSVR(SVR):
         dfd  = df[dates]
 
         # pandas to numpy array
-        self.X_train = dfX.values[:m_train]
-        self.y_train = dfy.values[:m_train]  #Train Target column
-        self.d_train = dfd.values[:m_train]
-        self.d_train  = [strftime("%Y-%m-%d",pd.to_datetime(t).to_pydatetime()) for t in self.d_train]
+        if m_train >0:
+            self.X_train = dfX.values[:m_train]
+            self.y_train = dfy.values[:m_train]  #Train Target column
+            self.d_train = dfd.values[:m_train]
+            self.d_train  = [strftime("%Y-%m-%d",pd.to_datetime(t).to_pydatetime()) for t in self.d_train]
 
         self.X_test  = dfX.values[m_train:]
         self.y_test  = dfy.values[m_train:]
