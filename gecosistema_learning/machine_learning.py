@@ -46,91 +46,92 @@ class StaticSVR(SVR):
         """
         super(StaticSVR,self).__init__(kernel='rbf', degree=3, gamma=gamma, coef0=0.0, tol=0.001, C=C, epsilon=epsilon, shrinking=True, cache_size=200, verbose=False, max_iter=-1)
         self.stdsc = StandardScaler()
-        self.X_train= None
-        self.y_train= None
-        self.X_test = None
-        self.y_test = None
-        self.predictions = None
+        self.df =None
+        self.X = None
+        self.y = None
 
-    def load(self, filecsv, sep=',', glue='"', features="", target= "", dates="", train_percent=0.75):
+
+    def load(self, filecsv, sep=',', glue='"'):
         """
         load
         """
         print("loading features from %s..."%(filecsv))
-        features = listify(features, sep=sep , glue=glue)
+        self.df  = pd.read_csv(filecsv, sep = ",", header=0, engine='c')
+
+    def train(self, features="", target= "", dates="", train_percent=0.75):
+        """
+        train
+        """
+        features = listify(features, sep="," , glue='"')
         features = [item.encode("ascii","replace") for item in features]
-
         dates = dates if dates else 0
-
-        df = pd.read_csv(filecsv, sep = ",", header=0, engine='c')
-        m,n = df.shape
+        m,n = self.df.shape
         m_train = int(m*train_percent)  #number of training rows
-        m_test  = m-m_train
 
         #select only feature columns
-        dfX  = df[features]
-        dfy  = df[target]
-        dfd  = df[dates]
+        dfX  = self.df[features]
+        dfy  = self.df[target]
+        dfd  = self.df[dates]
+
+        #100% of data
+        self.dates  = [strftime("%Y-%m-%d",pd.to_datetime(t).to_pydatetime()) for t in dfd.values[:]]
+        self.X = dfX.values[:] #100%
+        self.y = dfy.values[:] #Target 100%
+
 
         # pandas to numpy array
         if m_train >1:
-            self.X_train = dfX.values[:m_train]
-            self.y_train = dfy.values[:m_train]  #Train Target column
-            self.d_train = dfd.values[:m_train]
-            self.d_train  = [strftime("%Y-%m-%d",pd.to_datetime(t).to_pydatetime()) for t in self.d_train]
+            X_train = dfX.values[:m_train]
+            y_train = dfy.values[:m_train]  #Train Target column
 
-        self.X_test  = dfX.values[m_train:]
-        self.y_test  = dfy.values[m_train:]
-        self.d_test  = dfd.values[m_train:]
-        self.d_test  = [strftime("%Y-%m-%d",pd.to_datetime(t).to_pydatetime()) for t in self.d_test]
+        #X_test  = dfX.values[m_train:]
+        #y_test  = dfy.values[m_train:]
+
         #Normalization
-        self.X_train = self.stdsc.fit_transform(self.X_train)
-        self.X_test  = self.stdsc.transform(self.X_test)
-
-    def get_target(self, filecsv, sep=',', glue='"', features="", target= "", dates="", train_percent=0.75):
-        """
-        get_target
-        """
-        self.load(filecsv, sep=sep, glue=glue, features=features, target=target, dates=dates, train_percent=train_percent)
-
-        return zip(self.d_test,self.y_test)
-
-
-    def train(self, filecsv, sep=',', glue='"', features="", target= "", dates="", train_percent=0.75):
-        """
-        train fron csv
-        """
-
-        if self.X_train is None:
-            self.load(filecsv, sep=sep, glue=glue, features=features, target=target, dates=dates, train_percent=train_percent)
+        X_train = self.stdsc.fit_transform(X_train)
+        #X_test  = self.stdsc.transform(X_test)
 
         #training!
         print("make SVR training(fit)...")
-        self.fit(self.X_train, self.y_train)
+        self.fit(X_train, y_train)
 
 
-    def make_prediction(self, filecsv, sep=',', glue='"', features="", target= "",  dates="", train_percent=0.75):
+##    def get_target(self, filecsv, sep=',', glue='"', features="", target= "", dates="", train_percent=0.75):
+##        """
+##        get_target
+##        """
+##        self.load(filecsv, sep=sep, glue=glue, features=features, target=target, dates=dates, train_percent=train_percent)
+##
+##        return zip(self.d_test,self.y_test)
+
+
+    def prediction(self, train_percent=0.75, zipped=True):
         """
         make_prediction from csv
         """
-        if self.X_train is None:
-            self.train(filecsv, sep=sep, glue=glue, features=features, target=target, dates=dates, train_percent=train_percent)
-
         print("make SVR predictions...")
-        self.predictions = self.predict(self.X_test)
-        return zip(self.d_test,self.predictions)
+        m,n = self.df.shape
+        m_train = int(m*train_percent)  #number of training rows
+        dates   = self.dates[m_train:]
+        X_test  = self.X[m_train:]
+        X_test  = self.stdsc.transform(X_test)
+        y_test  = self.y[m_train:]
+        predictions = self.predict(X_test)
+
+        if zipped:
+            return zip(dates,predictions,y_test)
+        else:
+            return (dates,predictions,y_test)
 
 
-    def make_stats(self, filecsv, sep=',', glue='"', features="", target= "",  dates="", train_percent=0.75):
+    def make_stats(self, train_percent=0.75):
         """
         make_stats from csv
         """
-        if self.predictions is None:
-            self.make_prediction(filecsv, sep=sep, glue=glue, features=features, target=target, dates=dates, train_percent=train_percent)
-
         print("make SVR statistics...")
-        s = self.predict(self.X_test)
-        o = self.y_test
+
+        dates,s,o =  self.prediction(train_percent,False)
+
         self.mse = MSE(s,o)
         self.rmse =  RMSE(s,o)
         self.nash_sutcliffe = NASH(s,o)
@@ -142,6 +143,8 @@ if __name__== "__main__":
 
     filecsv = r"BETANIA0.csv"
     s =StaticSVR(C=200,epsilon=0.5,gamma=0.1)
-    #s.train(filecsv,features = u"T m norm,P1,P2", target = "TARGET")
 
-    print s.make_stats(filecsv,features = u"T m norm,P1,P2", target = "TARGET", dates= "DATA")
+    s.load(filecsv)
+    s.train(features = u"T m norm,P1,P2", target = "TARGET", dates= "DATA")
+    print s.make_stats(train_percent=0)
+    #print s.make_stats(filecsv,features = u"T m norm,P1,P2", target = "TARGET", dates= "DATA")
