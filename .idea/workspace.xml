@@ -2,7 +2,7 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="9a97a694-74c2-4e6f-ab8b-a8830637b474" name="Default Changelist" comment="">
-      <change afterPath="$PROJECT_DIR$/.idea/vcs.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/gecosistema_learning/BETANIA0.csv" beforeDir="false" afterPath="$PROJECT_DIR$/gecosistema_learning/BETANIA0.csv" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/gecosistema_learning/machine_learning.py" beforeDir="false" afterPath="$PROJECT_DIR$/gecosistema_learning/machine_learning.py" afterDir="false" />
     </list>
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
@@ -46,8 +46,8 @@
       <file pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/gecosistema_learning/machine_learning.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="858">
-              <caret line="88" column="56" lean-forward="true" selection-start-line="76" selection-start-column="8" selection-end-line="88" selection-end-column="56" />
+            <state relative-caret-position="606">
+              <caret line="74" column="24" selection-start-line="74" selection-start-column="24" selection-end-line="74" selection-end-column="24" />
               <folding>
                 <element signature="e#981#1011#0" expanded="true" />
               </folding>
@@ -67,7 +67,7 @@
       </list>
     </option>
   </component>
-  <component name="ProjectFrameBounds" extendedState="6">
+  <component name="ProjectFrameBounds" extendedState="7">
     <option name="x" value="-8" />
     <option name="y" value="-1088" />
     <option name="width" value="1936" />
@@ -134,7 +134,7 @@
     <servers />
   </component>
   <component name="ToolWindowManager">
-    <frame x="-8" y="-1088" width="1936" height="1096" extended-state="6" />
+    <frame x="-8" y="-1088" width="1936" height="1096" extended-state="7" />
     <editor active="true" />
     <layout>
       <window_info id="Favorites" side_tool="true" />
@@ -162,8 +162,8 @@
   <component name="editorHistoryManager">
     <entry file="file://$PROJECT_DIR$/gecosistema_learning/machine_learning.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="858">
-          <caret line="88" column="56" lean-forward="true" selection-start-line="76" selection-start-column="8" selection-end-line="88" selection-end-column="56" />
+        <state relative-caret-position="606">
+          <caret line="74" column="24" selection-start-line="74" selection-start-column="24" selection-end-line="74" selection-end-column="24" />
           <folding>
             <element signature="e#981#1011#0" expanded="true" />
           </folding>
