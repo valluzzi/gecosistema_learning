@@ -147,12 +147,12 @@ class StaticSVR(SVR):
 
         print ("M=%.2f MSE=%.2f RMSE=%.2f  NASH-SUTCLIFFE=%.2f"%(self.M,self.mse,self.rmse,self.nash_sutcliffe))
 
-    def plot(self, train_percent=0.75):
+    def plot(self):
         """
         plot predictions
         """
         m,n = self.df.shape
-        m_train = int(m*train_percent)  #number of training rows
+        m_train = int(m*self.train_percent)  #number of training rows
         s       = self.predictions[m_train:]
         s_train = self.predictions[:m_train]
         dates = self.dates
