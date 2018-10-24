@@ -106,13 +106,15 @@ class StaticSVR(SVR):
         print("make SVR predictions...")
         m,n = self.df.shape
         m_train = int(m*train_percent)  #number of training rows
-        dates   = self.dates[m_train:]
+
         X_test  = self.X
         X_test  = self.stdsc.transform(X_test)
         self.predictions = self.predict(X_test) #predict on all the domain
 
-        res =  (dates[m_train:],self.predictions[m_train:],self.y[m_train:])  #show only test percent
-        return zip(res) if zipped else res
+        if zipped:
+            return zip(self.dates[m_train:],self.predictions[m_train:],self.y[m_train:])
+        else:
+            return  (self.dates[m_train:],self.predictions[m_train:],self.y[m_train:])
 
     def target(self, train_percent=0.0, zipped=False):
         """
@@ -170,7 +172,5 @@ if __name__== "__main__":
 
     svr.load(filecsv)
     svr.train(features = u"T-12,T0-1,T m norm,P1,P2,P7,P8,P9,P10,P11,P14,P17,T1 (K),T2 (K),T7 (K),T8 (K),T9 (K),T10 (K),T11 (K),T14 (K),T17 (K)", target = "TARGET", dates= "DATA", train_percent=0.75)
-    print svr.make_stats(train_percent=0.75)
 
-
-    print svr.plot()
+    print svr.prediction(zipped=True)
