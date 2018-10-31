@@ -59,7 +59,7 @@ class StaticSVR(SVR):
         load
         """
         print("loading features from %s..."%(filecsv))
-        self.df  = pd.read_csv(filecsv, sep = ",", header=0, engine='c')
+        self.df  = pd.read_csv(filecsv, sep = ",", header=0,comment="#", engine='c')
 
     def train(self, features="", target= "", dates="", train_percent=0.75):
         """
@@ -166,11 +166,11 @@ class StaticSVR(SVR):
 
 if __name__== "__main__":
 
-    filecsv = r"BETANIA0.csv"
+    filecsv = r"BETANIA5int.csv"
 
     svr =StaticSVR(C=1e6,epsilon=1e2,gamma=0.1)
 
     svr.load(filecsv)
-    svr.train(features = u"T-12,T0-1,T m norm,P1,P2,P7,P8,P9,P10,P11,P14,P17,T1 (K),T2 (K),T7 (K),T8 (K),T9 (K),T10 (K),T11 (K),T14 (K),T17 (K)", target = "TARGET", dates= "DATA", train_percent=0.75)
+    svr.train(features = u"T-12,T0-1,T m norm,P1,P2,P7,P8,P9,P10,P11,P14,P17,T1,T2,T7,T8,T9,T10,T11,T14,T17,E1", target = "TARGET", dates= "DATA", train_percent=0.75)
 
     print svr.prediction(zipped=True)
