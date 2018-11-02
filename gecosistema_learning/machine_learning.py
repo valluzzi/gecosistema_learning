@@ -34,8 +34,6 @@ import matplotlib.pyplot as plt
 # SVR
 from sklearn.preprocessing import StandardScaler
 from sklearn.svm import SVR
-#from sklearn.model_selection import GridSearchCV, RandomizedSearchCV
-#from sklearn.externals import joblib
 
 class StaticSVR(SVR):
 
@@ -58,15 +56,25 @@ class StaticSVR(SVR):
         """
         load
         """
-        print("loading features from %s..."%(filecsv))
         self.df  = pd.read_csv(filecsv, sep = ",", header=0,comment="#", engine='c')
 
-    def train(self, features="", target= "", dates="", train_percent=0.75):
+    def train(self, features="", droplist="", target= "", dates="", train_percent=0.75):
         """
         train
         """
         features = listify(features, sep="," , glue='"')
         features = [item.encode("ascii","replace") for item in features]
+        droplist = listify(droplist, sep=",", glue='"')
+        droplist = [item.encode("ascii", "replace") for item in droplist]
+
+        features = features if features else list(self.df.columns.values)
+        features = [feature for feature in features if feature not in (target,dates)]
+
+        #remove fields in droplist
+        features = features if not droplist else [feature for feature in features if feature not in droplist]
+        print "features=",features
+
+
         dates = dates if dates else 0
         self.train_percent = train_percent
         m,n = self.df.shape
@@ -147,7 +155,7 @@ class StaticSVR(SVR):
         self.nash_sutcliffe = NASH(s,o)
         self.M = M(s,o)
 
-        print ("M=%.2f MSE=%.2f RMSE=%.2f  NASH-SUTCLIFFE=%.2f"%(self.M,self.mse,self.rmse,self.nash_sutcliffe))
+        print ("M=%.2f MSE=%.2f RMSE=%.2f  NASH-SUTCLIFFE=%.3f"%(self.M,self.mse,self.rmse,self.nash_sutcliffe))
 
     def plot(self):
         """
@@ -168,9 +176,9 @@ if __name__== "__main__":
 
     filecsv = r"BETANIA5int.csv"
 
-    svr =StaticSVR(C=1e6,epsilon=1e2,gamma=0.1)
+    svr =StaticSVR(C=8795,epsilon=600,gamma=0.029)
 
     svr.load(filecsv)
-    svr.train(features = u"T-12,T0-1,T m norm,P1,P2,P7,P8,P9,P10,P11,P14,P17,T1,T2,T7,T8,T9,T10,T11,T14,T17,E1", target = "TARGET", dates= "DATA", train_percent=0.75)
+    svr.train(droplist = "P1,P2,P9,P8,T1,T7,T8,T9,T11,T14,T17,E1", target = "TARGET", dates= "DATA", train_percent=0.75)
 
-    print svr.prediction(zipped=True)
+    print svr.make_stats(train_percent=0.75)
