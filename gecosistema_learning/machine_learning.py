@@ -89,19 +89,16 @@ class StaticSVR(SVR):
         self.dates  = [strftime("%Y-%m-%d",pd.to_datetime(t).to_pydatetime()) for t in dfd.values[:]]
         self.X = dfX.values[:] #100%
         self.y = dfy.values[:] #Target 100%
-
+        print "self.X", self.X.shape
 
         # pandas to numpy array
         if m_train >1:
             X_train = dfX.values[:m_train]
             y_train = dfy.values[:m_train]  #Train Target column
-
-        #X_test  = dfX.values[m_train:]
-        #y_test  = dfy.values[m_train:]
+            print "X_train.shape",X_train.shape
 
         #Normalization
         X_train = self.stdsc.fit_transform(X_train)
-        #X_test  = self.stdsc.transform(X_test)
 
         #training!
         print("make SVR training(fit)...")
