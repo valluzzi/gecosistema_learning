@@ -27,7 +27,6 @@ from gecosistema_core import *
 #import tensorflow
 #pandas
 import pandas as pd
-import matplotlib.pyplot as plt
 
 #keras
 from keras.models import Sequential
