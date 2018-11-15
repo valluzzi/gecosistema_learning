@@ -72,8 +72,6 @@ class StaticSVR(SVR):
 
         #remove fields in droplist
         features = features if not droplist else [feature for feature in features if feature not in droplist]
-        print "features=",features
-
 
         dates = dates if dates else 0
         self.train_percent = train_percent

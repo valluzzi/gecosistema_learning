@@ -25,3 +25,9 @@
 #!/usr/bin/env python
 # -*- coding: utf-8 -*-
 from machine_learning import *
+
+try:
+    import keras
+    from LSTM import *
+except:
+    pass
