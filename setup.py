@@ -1,6 +1,6 @@
 import os,setuptools
 
-verision="0.0.1"
+version="0.0.1"
 if os.path.isfile("version.txt"):
     with open("version.txt", "r") as f:
         version = f.read()
