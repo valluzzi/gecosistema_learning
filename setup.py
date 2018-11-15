@@ -26,5 +26,9 @@ setuptools.setup(
         "License :: OSI Approved :: MIT License",
         "Operating System :: OS Independent",
     ),
-    install_requires=['pandas','sklearn','gecosistema_core']
+    install_requires=['pandas',
+                      'matplotlib',
+                      #'keras',
+                      'sklearn',
+                      'gecosistema_core']
 )

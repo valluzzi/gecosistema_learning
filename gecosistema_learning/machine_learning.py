@@ -30,7 +30,7 @@ from gecosistema_core import *
 
 #pandas
 import pandas as pd
-import matplotlib.pyplot as plt
+#import matplotlib.pyplot as plt
 # SVR
 from sklearn.preprocessing import StandardScaler
 from sklearn.svm import SVR
@@ -152,19 +152,19 @@ class StaticSVR(SVR):
 
         print ("M=%.2f MSE=%.2f RMSE=%.2f  NASH-SUTCLIFFE=%.3f"%(self.M,self.mse,self.rmse,self.nash_sutcliffe))
 
-    def plot(self):
-        """
-        plot predictions
-        """
-        m,n = self.df.shape
-        m_train = int(m*self.train_percent)  #number of training rows
-        s       = self.predictions[m_train:]
-        s_train = self.predictions[:m_train]
-        dates = self.dates
-        o = self.y
-
-        plt.plot(dates,o,dates[:m_train],s_train,dates[m_train:],s)
-        plt.show()
+ ##    def plot(self):
+ #       """
+        #       plot predictions
+        #       """
+        #m,n = self.df.shape
+        #       m_train = int(m*self.train_percent)  #number of training rows
+        #s       = self.predictions[m_train:]
+        #s_train = self.predictions[:m_train]
+        #dates = self.dates
+        #o = self.y
+        #
+        #plt.plot(dates,o,dates[:m_train],s_train,dates[m_train:],s)
+        #plt.show()
 
 
 if __name__== "__main__":
