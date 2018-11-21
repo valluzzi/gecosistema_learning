@@ -32,9 +32,9 @@ import pandas as pd
 from sklearn.preprocessing import MinMaxScaler
 
 #keras
-import sys
+import os,sys
 stdout = sys.stdout
-sys.stdout = open('/dev/null', 'w')
+sys.stdout = open(os.devnull, 'w')
 from keras.models import Sequential
 from keras.layers import *
 sys.stdout = stdout
