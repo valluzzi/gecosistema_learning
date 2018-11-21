@@ -118,10 +118,10 @@ class SimpleLSTM(Sequential):
         # training!
         #print("make LSTM training(fit)...")
 
-        print(X_train.shape)
-        print(y_train.shape)
-        print(X_test.shape)
-        print(y_test.shape)
+        #print(X_train.shape)
+        #print(y_train.shape)
+        #print(X_test.shape)
+        #print(y_test.shape)
 
         #
         self.add(LSTM(self.neurons, input_shape=(X_train.shape[1], X_train.shape[2])))
