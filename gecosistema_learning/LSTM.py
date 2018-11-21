@@ -93,7 +93,7 @@ class SimpleLSTM(Sequential):
 
         #add T-6
         T   = dfys
-        T_6 = T[:-6]
+        T_6 = T[6:]
         m_new = T_6.shape[0]
         m_train = int(m_new * self.train_percent)  # number of training rows
         dfys = dfys[6:]
@@ -101,7 +101,7 @@ class SimpleLSTM(Sequential):
         dfXs = np.hstack((T_6.reshape((m_new,1)),dfXs))
 
         # select only feature columns
-        dfd = self.df[dates]
+        dfd = self.df[dates][6:]
 
         if m_train > 1:
             X_train = dfXs[:m_train]
@@ -188,4 +188,4 @@ if __name__== "__main__":
     svr.train(droplist = "P1,P2,P9,P8,T1,T7,T8,T9,T11,T14,T17,E1", target = "TARGET", dates= "DATA",  epochs=6)
 
     print(svr.prediction(train_percent=0.0,zipped=True))
-    #svr.make_stats(1train_percent =0.5)
+    print(svr.make_stats(train_percent =0.745))
