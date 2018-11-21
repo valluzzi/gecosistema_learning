@@ -116,7 +116,7 @@ class SimpleLSTM(Sequential):
         X_test  = X_test.reshape((  X_test.shape[0], 1, X_test.shape[1]))
 
         # training!
-        print("make LSTM training(fit)...")
+        #print("make LSTM training(fit)...")
 
         print(X_train.shape)
         print(y_train.shape)
@@ -134,7 +134,7 @@ class SimpleLSTM(Sequential):
         """
         make_prediction
         """
-        print("make LSTM predictions...")
+        #print("make LSTM predictions...")
         m, _ = self.X.shape
         train_percent = train_percent if train_percent >= 0 else self.train_percent
         m_train = int(m *train_percent)  # number of training rows
@@ -156,7 +156,7 @@ class SimpleLSTM(Sequential):
         """
         make_stats
         """
-        print("make SVR statistics...")
+        #print("make SVR statistics...")
         m,_= self.X.shape
         train_percent = train_percent if train_percent>0 else self.train_percent
         m_train = int(m* train_percent)  #number of training rows
@@ -172,7 +172,7 @@ class SimpleLSTM(Sequential):
         self.nash_sutcliffe = NASH(s,o)
         self.M = M(s,o)
 
-        print ("M=%.2f MSE=%.2f RMSE=%.2f  NASH-SUTCLIFFE=%.3f"%(self.M,self.mse,self.rmse,self.nash_sutcliffe))
+        return ("M=%.2f MSE=%.2f RMSE=%.2f  NASH-SUTCLIFFE=%.3f"%(self.M,self.mse,self.rmse,self.nash_sutcliffe))
 
 
 if __name__== "__main__":
