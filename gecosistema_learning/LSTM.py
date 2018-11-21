@@ -56,7 +56,7 @@ class SimpleLSTM(Sequential):
         """
         load
         """
-        self.df = pd.read_csv(filecsv, sep=",", header=0, comment="#", engine='c')
+        self.df = pd.read_csv(filename, sep=",", header=0, comment="#", engine='c')
 
     def T_minus(self,n):
         """
