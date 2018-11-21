@@ -24,10 +24,10 @@
 # ------------------------------------------------------------------------------
 #!/usr/bin/env python
 # -*- coding: utf-8 -*-
-from SVRM import *
+from .SVRM import *
 
 try:
     import keras
-    from LSTM import *
+    from .LSTM import *
 except:
     pass
