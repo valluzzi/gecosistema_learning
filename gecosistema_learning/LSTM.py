@@ -32,8 +32,12 @@ import pandas as pd
 from sklearn.preprocessing import MinMaxScaler
 
 #keras
+import sys
+stdout = sys.stdout
+sys.stdout = open('/dev/null', 'w')
 from keras.models import Sequential
 from keras.layers import *
+sys.stdout = stdout
 
 class SimpleLSTM(Sequential):
 
