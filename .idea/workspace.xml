@@ -121,6 +121,7 @@
       <find>StandardScaler</find>
       <find>concatenate</find>
       <find>train_percent</find>
+      <find>print</find>
     </findStrings>
   </component>
   <component name="Git.Settings">
