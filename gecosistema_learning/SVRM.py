@@ -87,13 +87,12 @@ class StaticSVR(SVR):
         self.dates  = [strftime("%Y-%m-%d",pd.to_datetime(t).to_pydatetime()) for t in dfd.values[:]]
         self.X = dfX.values[:] #100%
         self.y = dfy.values[:] #Target 100%
-        print "self.X", self.X.shape
 
         # pandas to numpy array
         if m_train >1:
             X_train = dfX.values[:m_train]
             y_train = dfy.values[:m_train]  #Train Target column
-            print "X_train.shape",X_train.shape
+            print("X_train.shape",X_train.shape)
 
         #Normalization
         X_train = self.stdsc.fit_transform(X_train)
@@ -176,4 +175,4 @@ if __name__== "__main__":
     svr.load(filecsv)
     svr.train(droplist = "P1,P2,P9,P8,T1,T7,T8,T9,T11,T14,T17,E1", target = "TARGET", dates= "DATA", train_percent=0.75)
 
-    print svr.make_stats(train_percent=0.75)
+    svr.make_stats(train_percent=0.75)

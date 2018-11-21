@@ -24,7 +24,7 @@
 # ------------------------------------------------------------------------------
 #!/usr/bin/env python
 # -*- coding: utf-8 -*-
-from machine_learning import *
+from SVRM import *
 
 try:
     import keras
