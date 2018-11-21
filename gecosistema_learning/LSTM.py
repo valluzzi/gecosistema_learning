@@ -24,16 +24,15 @@
 # -------------------------------------------------------------------------------
 from gecosistema_core import *
 
-#import tensorflow
 #pandas
 import numpy as np
 import pandas as pd
 
+import os,sys
+stdout = sys.stdout
 from sklearn.preprocessing import MinMaxScaler
 
 #keras
-import os,sys
-stdout = sys.stdout
 sys.stdout = open(os.devnull, 'w')
 from keras.models import Sequential
 from keras.layers import *
